@@ -15,7 +15,7 @@ export default function Palette({ palette }) {
   };
   const colorBoxes = () => {
     return colors[level].map((color) => (
-      <ColorBox background={color[format]} key={color.name} name={color.name} />
+      <ColorBox background={color[format]} key={color.id} name={color.name} />
     ));
   };
   return (
@@ -25,9 +25,11 @@ export default function Palette({ palette }) {
         changeLevel={changeLevel}
         changeFormat={changeFormat}
       />
-      {/* Navbar goes here */}
       <div className="Palette-colors">{colorBoxes()}</div>
-      {/* footer */}
+      <footer className="Palette-footer">
+        {paletteName}
+        <span className="emoji">{emoji}</span>
+      </footer>
     </div>
   );
 }
