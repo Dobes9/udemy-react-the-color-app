@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./App.css";
 import Palette from "./Palette";
 import seedColors from "./seedColors";
 
