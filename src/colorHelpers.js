@@ -12,8 +12,8 @@ function generatePalette(starter) {
   for (let level of levels) {
     newPalette.colors[level] = [];
   }
-  for (let color of starter.color) {
-    let scale = generateScale(color, 10).reverse();
+  for (let color of starter.colors) {
+    let scale = generateScale(color.color, 10).reverse();
     for (let i in scale) {
       newPalette.colors[levels[i]].push({
         name: `${color.name} ${levels[i]}`,
