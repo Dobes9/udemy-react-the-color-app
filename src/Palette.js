@@ -1,6 +1,7 @@
 import React from "react";
 import ColorBox from "./ColorBox";
 import "./Palette.css";
+import { generatePalette } from "./colorHelpers";
 
 export default function Palette({ colors, emoji, id, paletteName }) {
   const colorBoxes = () => {
