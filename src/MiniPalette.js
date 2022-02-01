@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   root: {
@@ -44,7 +45,7 @@ const styles = {
   },
 };
 
-function MiniPalette({ classes, paletteName, emoji, colors }) {
+function MiniPalette({ classes, paletteName, emoji, colors, id }) {
   const miniColorBoxes = colors.map((color) => {
     return (
       <div
@@ -54,8 +55,12 @@ function MiniPalette({ classes, paletteName, emoji, colors }) {
       ></div>
     );
   });
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/palette/${id}`);
+  };
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onClick={handleClick}>
       <div className={classes.colors}>{miniColorBoxes}</div>
       <h5 className={classes.title}>
         {paletteName} <span className={classes.emoji}>{emoji}</span>
