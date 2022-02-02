@@ -22,7 +22,12 @@ export default function Palette() {
   };
   const colorBoxes = () => {
     return colors[level].map((color) => (
-      <ColorBox background={color[format]} key={color.id} name={color.name} />
+      <ColorBox
+        background={color[format]}
+        id={color.id}
+        key={color.id}
+        name={color.name}
+      />
     ));
   };
   return (
