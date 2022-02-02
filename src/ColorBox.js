@@ -3,7 +3,7 @@ import "./ColorBox.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Link } from "react-router-dom";
 
-export default function ColorBox({ background, name, id }) {
+export default function ColorBox({ background, name, paletteId, colorId }) {
   const [copied, setCopied] = useState(false);
   const changeCopyState = () => {
     setCopied(true);
@@ -29,7 +29,7 @@ export default function ColorBox({ background, name, id }) {
           </div>
           <button className="copy-button">copy</button>
         </div>
-        <Link to={`/palette/:paletteId/${id}}`} onClick={handleClick}>
+        <Link to={`/palette/${paletteId}/${colorId}}`} onClick={handleClick}>
           <span className="see-more">more</span>
         </Link>
       </div>

@@ -24,7 +24,8 @@ export default function Palette() {
     return colors[level].map((color) => (
       <ColorBox
         background={color[format]}
-        id={color.id}
+        paletteId={id}
+        colorId={color.id}
         key={color.id}
         name={color.name}
       />
