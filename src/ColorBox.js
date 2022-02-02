@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import "./ColorBox.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function ColorBox({ background, name, paletteId, colorId }) {
+export default function ColorBox({
+  background,
+  name,
+  paletteId,
+  colorId,
+  showLink,
+}) {
   const [copied, setCopied] = useState(false);
   const changeCopyState = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
+  const navigate = useNavigate();
   const handleClick = (e) => {
     e.stopPropagation();
+    navigate(`/palette/${paletteId}/${colorId}`);
   };
   return (
     <CopyToClipboard text={background} onCopy={changeCopyState}>
@@ -29,9 +37,11 @@ export default function ColorBox({ background, name, paletteId, colorId }) {
           </div>
           <button className="copy-button">copy</button>
         </div>
-        <Link to={`/palette/${paletteId}/${colorId}}`} onClick={handleClick}>
-          <span className="see-more">more</span>
-        </Link>
+        {showLink ? (
+          <span className="see-more" onClick={handleClick}>
+            more
+          </span>
+        ) : null}
       </div>
     </CopyToClipboard>
   );

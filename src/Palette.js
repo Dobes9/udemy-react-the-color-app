@@ -8,8 +8,11 @@ import { generatePalette } from "./colorHelpers";
 
 export default function Palette() {
   const { paletteId } = useParams();
-  const palette = generatePalette(
-    seedColors.find((palette) => palette.id === paletteId)
+  // const palette = generatePalette(
+  //   seedColors.find((palette) => palette.id === paletteId)
+  // );
+  const [palette, setPalette] = useState(
+    generatePalette(seedColors.find((palette) => palette.id === paletteId))
   );
   const { paletteName, id, emoji, colors } = palette;
   const [level, setLevel] = useState(500);
@@ -28,6 +31,7 @@ export default function Palette() {
         colorId={color.id}
         key={color.id}
         name={color.name}
+        showLink={true}
       />
     ));
   };
