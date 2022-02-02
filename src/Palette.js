@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
+import PaletteFooter from "./PaletteFooter";
 import "./Palette.css";
 import seedColors from "./seedColors";
 import { generatePalette } from "./colorHelpers";
@@ -41,12 +42,10 @@ export default function Palette() {
         level={level}
         changeLevel={changeLevel}
         changeFormat={changeFormat}
+        showSlider
       />
       <div className="Palette-colors">{colorBoxes()}</div>
-      <footer className="Palette-footer">
-        {paletteName}
-        <span className="emoji">{emoji}</span>
-      </footer>
+      <PaletteFooter paletteName={paletteName} emoji={emoji} />
     </div>
   );
 }

@@ -1,20 +1,26 @@
 import React, { useState } from "react";
+import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
 import ColorBox from "./ColorBox";
+import PaletteFooter from "./PaletteFooter";
 import seedColors from "./seedColors";
 import { generatePalette } from "./colorHelpers";
 
 export default function SingleColorPalette() {
   const [format, setFormat] = useState("hex");
+  const changeFormat = (val) => {
+    setFormat(val);
+  };
   const { paletteId, colorId } = useParams();
+  const palette = generatePalette(
+    seedColors.find((palette) => palette.id === paletteId)
+  );
+  const { paletteName, emoji, colors } = palette;
   const gatherShades = () => {
-    const palette = generatePalette(
-      seedColors.find((palette) => palette.id === paletteId)
-    );
     const colorShades = [];
-    for (let level in palette.colors) {
+    for (let level in colors) {
       colorShades.push({
-        ...palette.colors[level].find((color) => color.id === colorId),
+        ...colors[level].find((color) => color.id === colorId),
       });
     }
     return colorShades
@@ -32,8 +38,9 @@ export default function SingleColorPalette() {
   };
   return (
     <div className="Palette">
-      <h1>Single Color Palette</h1>
+      <Navbar showSlider={false} changeFormat={changeFormat} />
       <div className="Palette-colors">{gatherShades()}</div>
+      <PaletteFooter paletteName={paletteName} emoji={emoji} />
     </div>
   );
 }
