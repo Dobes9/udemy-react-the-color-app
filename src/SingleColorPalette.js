@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ColorBox from "./ColorBox";
 import PaletteFooter from "./PaletteFooter";
 import seedColors from "./seedColors";
@@ -31,15 +31,26 @@ export default function SingleColorPalette() {
           background={shade[format]}
           name={shade.name}
           colorId={shade.id}
-          key={shade.id}
+          key={shade.name}
           showLink={false}
         />
       ));
   };
+  const navigate = useNavigate();
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
-    <div className="Palette">
+    <div className="SingleColorPalette Palette">
       <Navbar showSlider={false} changeFormat={changeFormat} />
-      <div className="Palette-colors">{gatherShades()}</div>
+      <div className="Palette-colors">
+        {gatherShades()}
+        <div className="go-back ColorBox">
+          <a className="back-button" onClick={handleBack}>
+            go back
+          </a>
+        </div>
+      </div>
       <PaletteFooter paletteName={paletteName} emoji={emoji} />
     </div>
   );
