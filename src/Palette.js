@@ -32,7 +32,7 @@ export default function Palette() {
         colorId={color.id}
         key={color.id}
         name={color.name}
-        showLink={true}
+        showingFullPalette
       />
     ));
   };

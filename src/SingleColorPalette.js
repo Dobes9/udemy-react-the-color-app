@@ -32,7 +32,7 @@ export default function SingleColorPalette() {
           name={shade.name}
           colorId={shade.id}
           key={shade.name}
-          showLink={false}
+          showingFullPalette={false}
         />
       ));
   };
