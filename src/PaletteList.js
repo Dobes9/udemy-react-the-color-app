@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
 import { withStyles } from "@mui/styles";
 import styles from "./styles/PaletteListStyles";
@@ -14,6 +15,7 @@ function PaletteList({ classes, palettes }) {
       <div className={classes.container}>
         <nav className={classes.nav}>
           <h1>React Colors</h1>
+          <Link to="/palette/new">Create Palette</Link>
         </nav>
         <div className={classes.palettes}>{list()}</div>
       </div>
