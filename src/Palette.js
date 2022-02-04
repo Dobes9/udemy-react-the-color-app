@@ -3,21 +3,10 @@ import { useParams } from "react-router-dom";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
-import "./Palette.css";
 import seedColors from "./seedColors";
 import { generatePalette } from "./colorHelpers";
 import { withStyles } from "@mui/styles";
-
-const styles = {
-  Palette: {
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-  },
-  colors: {
-    height: "90%",
-  },
-};
+import styles from "./styles/PaletteStyles";
 
 function Palette({ classes }) {
   const { paletteId } = useParams();
