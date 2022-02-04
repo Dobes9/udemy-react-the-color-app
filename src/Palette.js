@@ -8,13 +8,13 @@ import { generatePalette } from "./colorHelpers";
 import { withStyles } from "@mui/styles";
 import styles from "./styles/PaletteStyles";
 
-function Palette({ classes }) {
+function Palette({ classes, palettes }) {
   const { paletteId } = useParams();
   // const palette = generatePalette(
   //   seedColors.find((palette) => palette.id === paletteId)
   // );
   const [palette, setPalette] = useState(
-    generatePalette(seedColors.find((palette) => palette.id === paletteId))
+    generatePalette(palettes.find((palette) => palette.id === paletteId))
   );
   const { paletteName, id, emoji, colors } = palette;
   const [level, setLevel] = useState(500);

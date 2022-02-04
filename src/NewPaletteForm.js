@@ -15,6 +15,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChromePicker } from "react-color";
 import { Button } from "@mui/material";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 320;
 
@@ -64,12 +65,14 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function NewPaletteForm() {
+function NewPaletteForm({ savePalette }) {
   const [colors, setColors] = useState([]);
   const [newColor, setNewColor] = useState("teal");
   const [newColorName, setNewColorName] = useState("");
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const updateNewColor = (color, event) => {
     setNewColor(color.hex);
@@ -93,6 +96,17 @@ function NewPaletteForm() {
     setNewColorName(e.target.value);
   };
 
+  const handleSavePalette = (e) => {
+    e.preventDefault();
+    const newName = "Test Name"
+    const newPalette = {
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, "-"),
+      colors,
+    };
+    savePalette(newPalette);
+    navigate("/");
+  };
   ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
     return colors.every(
       ({ name }) => name.toLowerCase() !== value.toLowerCase()
@@ -104,7 +118,7 @@ function NewPaletteForm() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} color="default">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -118,6 +132,13 @@ function NewPaletteForm() {
           <Typography variant="h6" noWrap component="div">
             Persistent drawer
           </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSavePalette}
+          >
+            save palette
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
