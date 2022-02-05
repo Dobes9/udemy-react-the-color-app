@@ -111,6 +111,9 @@ function NewPaletteForm({ savePalette, palettes }) {
     savePalette(newPalette);
     navigate("/");
   };
+  const deleteColor = (colorName) => {
+    setColors((colors) => colors.filter((color) => color.name !== colorName));
+  };
   ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
     return colors.every(
       ({ name }) => name.toLowerCase() !== value.toLowerCase()
@@ -218,6 +221,7 @@ function NewPaletteForm({ savePalette, palettes }) {
             color={color.color}
             key={color.name}
             name={color.name}
+            deleteColor={deleteColor}
           />
         ))}
       </Main>
