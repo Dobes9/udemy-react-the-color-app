@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import DraggableColorbox from "./DraggableColorBox";
+import DraggableColorList from "./DraggableColorList";
+import { arrayMove } from "react-sortable-hoc";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -114,6 +115,10 @@ function NewPaletteForm({ savePalette, palettes }) {
   const deleteColor = (colorName) => {
     setColors((colors) => colors.filter((color) => color.name !== colorName));
   };
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setColors(arrayMove(colors, oldIndex, newIndex));
+  };
   ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
     return colors.every(
       ({ name }) => name.toLowerCase() !== value.toLowerCase()
@@ -216,14 +221,12 @@ function NewPaletteForm({ savePalette, palettes }) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {colors.map((color) => (
-          <DraggableColorbox
-            color={color.color}
-            key={color.name}
-            name={color.name}
-            deleteColor={deleteColor}
-          />
-        ))}
+        <DraggableColorList
+          colors={colors}
+          deleteColor={deleteColor}
+          axis="xy"
+          onSortEnd={onSortEnd}
+        />
       </Main>
     </Box>
   );
