@@ -66,13 +66,15 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function NewPaletteForm({ savePalette, palettes }) {
-  const [colors, setColors] = useState([]);
-  const [newColor, setNewColor] = useState("teal");
+function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
+  const [colors, setColors] = useState([...palettes[0].colors]);
+  const [newColor, setNewColor] = useState("#008080");
   const [newColorName, setNewColorName] = useState("");
   const [newPaletteName, setNewPaletteName] = useState("");
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+
+  const paletteFull = colors.length >= maxColors;
 
   const navigate = useNavigate();
 
@@ -114,6 +116,19 @@ function NewPaletteForm({ savePalette, palettes }) {
   };
   const deleteColor = (colorName) => {
     setColors((colors) => colors.filter((color) => color.name !== colorName));
+  };
+
+  const handleClearPalette = () => {
+    setColors([]);
+  };
+
+  const handleGenRandColor = () => {
+    if (colors.length < 20) {
+      const allColors = palettes.map((p) => p.colors).flat();
+      let rand = Math.floor(Math.random() * allColors.length);
+      const randomColor = allColors[rand];
+      setColors((colors) => [...colors, randomColor]);
+    }
   };
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
@@ -188,10 +203,19 @@ function NewPaletteForm({ savePalette, palettes }) {
         <Divider />
         <Typography variant="h4">Design your palette</Typography>
         <div>
-          <Button variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleClearPalette}
+          >
             Clear Palette
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGenRandColor}
+            disabled={paletteFull}
+          >
             Random Color
           </Button>
         </div>
@@ -212,10 +236,11 @@ function NewPaletteForm({ savePalette, palettes }) {
           <Button
             variant="contained"
             color="primary"
-            style={{ backgroundColor: newColor }}
+            style={{ backgroundColor: paletteFull ? "grey" : newColor }}
             type="submit"
+            disabled={paletteFull}
           >
-            add color
+            {paletteFull ? "palette full" : "add color"}
           </Button>
         </ValidatorForm>
       </Drawer>
