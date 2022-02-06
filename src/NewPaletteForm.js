@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PaletteFormNav from "./PaletteFormNav";
 import { styled, useTheme } from "@mui/material/styles";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
@@ -40,23 +41,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -96,24 +80,18 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
       setNewColorName("");
     }
   };
-  const handleFormChange = (e) => {
-    if (e.target.name === "newColorName") {
-      setNewColorName(e.target.value);
-    } else {
-      setNewPaletteName(e.target.value);
-    }
+  //   const handleFormChange = (e) => {
+  //     if (e.target.name === "newColorName") {
+  //       setNewColorName(e.target.value);
+  //     } else {
+  //       setNewPaletteName(e.target.value);
+  //     }
+  //   };
+
+  const handleColorNameChange = (e) => {
+    setNewColorName(e.target.value);
   };
 
-  const handleSavePalette = (e) => {
-    e.preventDefault();
-    const newPalette = {
-      paletteName: newPaletteName,
-      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
-      colors,
-    };
-    savePalette(newPalette);
-    navigate("/");
-  };
   const deleteColor = (colorName) => {
     setColors((colors) => colors.filter((color) => color.name !== colorName));
   };
@@ -142,46 +120,16 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
   ValidatorForm.addValidationRule("isColorUnique", (value) => {
     return colors.every(({ color }) => color !== newColor);
   });
-  ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
-    return palettes.every(
-      ({ name }) => name.toLowerCase() !== value.toLowerCase()
-    );
-  });
+
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} color="default">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
-          <ValidatorForm onSubmit={handleSavePalette}>
-            <TextValidator
-              label="Palette Name"
-              name="newPaletteName"
-              value={newPaletteName}
-              onChange={handleFormChange}
-              validators={["required", "isPaletteNameUnique"]}
-              errorMessages={[
-                "Enter palette name",
-                "Palette name already used",
-              ]}
-            />
-            <Button variant="contained" color="primary" type="submit">
-              save palette
-            </Button>
-          </ValidatorForm>
-        </Toolbar>
-      </AppBar>
+      <PaletteFormNav
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        colors={colors}
+        savePalette={savePalette}
+        palettes={palettes}
+      />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -224,7 +172,7 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
           <TextValidator
             value={newColorName}
             name="newColorName"
-            onChange={handleFormChange}
+            onChange={handleColorNameChange}
             label="Color Name"
             validators={["required", "isColorNameUnique", "isColorUnique"]}
             errorMessages={[
