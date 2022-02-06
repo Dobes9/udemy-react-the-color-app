@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PaletteFormNav from "./PaletteFormNav";
+import ColorPickerForm from "./ColorPickerForm";
 import { styled, useTheme } from "@mui/material/styles";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
@@ -40,6 +41,23 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     }),
   })
 );
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -120,6 +138,11 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
   ValidatorForm.addValidationRule("isColorUnique", (value) => {
     return colors.every(({ color }) => color !== newColor);
   });
+  ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
+    return palettes.every(
+      ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
+    );
+  });
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -128,7 +151,7 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
         handleDrawerOpen={handleDrawerOpen}
         colors={colors}
         savePalette={savePalette}
-        palettes={palettes}
+        AppBar={AppBar}
       />
       <Drawer
         sx={{
@@ -167,30 +190,14 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
             Random Color
           </Button>
         </div>
-        <ChromePicker color={newColor} onChangeComplete={updateNewColor} />
-        <ValidatorForm onSubmit={addNewColor}>
-          <TextValidator
-            value={newColorName}
-            name="newColorName"
-            onChange={handleColorNameChange}
-            label="Color Name"
-            validators={["required", "isColorNameUnique", "isColorUnique"]}
-            errorMessages={[
-              "Enter a color name",
-              "Color name must be unique",
-              "Color already in palette",
-            ]}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ backgroundColor: paletteFull ? "grey" : newColor }}
-            type="submit"
-            disabled={paletteFull}
-          >
-            {paletteFull ? "palette full" : "add color"}
-          </Button>
-        </ValidatorForm>
+        <ColorPickerForm
+          paletteFull={paletteFull}
+          newColor={newColor}
+          updateNewColor={updateNewColor}
+          addNewColor={addNewColor}
+          newColorName={newColorName}
+          handleColorNameChange={handleColorNameChange}
+        />
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

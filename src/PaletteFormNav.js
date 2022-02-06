@@ -18,31 +18,12 @@ import { Button } from "@mui/material";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useNavigate } from "react-router-dom";
 
-const drawerWidth = 320;
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 export default function PaletteFormNav({
   open,
   handleDrawerOpen,
   colors,
   savePalette,
-  palettes,
+  AppBar,
 }) {
   const theme = useTheme();
 
@@ -65,11 +46,7 @@ export default function PaletteFormNav({
     savePalette(newPalette);
     navigate("/");
   };
-  ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
-    return palettes.every(
-      ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
-    );
-  });
+  
   return (
     <div>
       <CssBaseline />
