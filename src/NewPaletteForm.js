@@ -78,8 +78,6 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20 }) {
 
   const paletteFull = colors.length >= maxColors;
 
-  const navigate = useNavigate();
-
   const updateNewColor = (color, event) => {
     setNewColor(color.hex);
   };

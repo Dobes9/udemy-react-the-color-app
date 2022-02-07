@@ -17,6 +17,11 @@ import { ChromePicker } from "react-color";
 import { Button } from "@mui/material";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useNavigate } from "react-router-dom";
+import { withStyles } from "@mui/styles";
+
+const styles = {
+    
+}
 
 export default function PaletteFormNav({
   open,
@@ -46,7 +51,7 @@ export default function PaletteFormNav({
     savePalette(newPalette);
     navigate("/");
   };
-  
+
   return (
     <div>
       <CssBaseline />
@@ -76,7 +81,6 @@ export default function PaletteFormNav({
                 "Palette name already used",
               ]}
             />
-
             <Button variant="contained" color="primary" type="submit">
               save palette
             </Button>
