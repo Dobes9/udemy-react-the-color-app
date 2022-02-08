@@ -20,15 +20,21 @@ import { useNavigate } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 
 const styles = {
-    
+  root: {
+    display: "flex",
+  },
+  navBtns: {
+
+  }
 }
 
-export default function PaletteFormNav({
+function PaletteFormNav({
   open,
   handleDrawerOpen,
   colors,
   savePalette,
   AppBar,
+  classes
 }) {
   const theme = useTheme();
 
@@ -53,7 +59,7 @@ export default function PaletteFormNav({
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" open={open} color="default">
         <Toolbar>
@@ -67,8 +73,11 @@ export default function PaletteFormNav({
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Create a Palette
           </Typography>
+
+        </Toolbar>
+        <div className={classes.navBtns}>
           <ValidatorForm onSubmit={handleSavePalette}>
             <TextValidator
               label="Palette Name"
@@ -88,8 +97,10 @@ export default function PaletteFormNav({
           <Button variant="contained" color="secondary" onClick={handleGoBack}>
             go back
           </Button>
-        </Toolbar>
+        </div>
       </AppBar>
     </div>
   );
 }
+
+export default withStyles(styles)(PaletteFormNav)
