@@ -18,21 +18,41 @@ import { ChromePicker } from "react-color";
 import { Button } from "@mui/material";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useNavigate } from "react-router-dom";
+import { withStyles } from "@mui/styles";
 
-export default function ColorPickerForm({
+const styles = {
+  picker: {
+    width: "100% !important",
+    marginTop: "2rem",
+  },
+  addColor: {
+    width: "100%",
+    padding: "1rem",
+    marginTop: "1rem",
+    fontSize: "2rem",
+  },
+  colorNameInput: {
+    width: "100%",
+    height: "70px",
+  },
+}
+
+function ColorPickerForm({
   paletteFull,
   newColor,
   updateNewColor,
   addNewColor,
   newColorName,
   handleColorNameChange,
+  classes
 }) {
   return (
     <div>
-      <ChromePicker color={newColor} onChangeComplete={updateNewColor} />
+      <ChromePicker color={newColor} onChangeComplete={updateNewColor} className={classes.picker} />
       <ValidatorForm onSubmit={addNewColor}>
         <TextValidator
           value={newColorName}
+          className={classes.colorNameInput}
           name="newColorName"
           onChange={handleColorNameChange}
           label="Color Name"
@@ -42,6 +62,8 @@ export default function ColorPickerForm({
             "Color name must be unique",
             "Color already in palette",
           ]}
+          variant="filled"
+          margin="normal"
         />
         <Button
           variant="contained"
@@ -49,6 +71,7 @@ export default function ColorPickerForm({
           style={{ backgroundColor: paletteFull ? "grey" : newColor }}
           type="submit"
           disabled={paletteFull}
+          className={classes.addColor}
         >
           {paletteFull ? "palette full" : "add color"}
         </Button>
@@ -56,3 +79,5 @@ export default function ColorPickerForm({
     </div>
   );
 }
+
+export default withStyles(styles)(ColorPickerForm);
