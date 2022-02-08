@@ -26,7 +26,11 @@ const styles = {
     display: "flex",
   },
   navBtns: {
+    marginRight: "1rem",
 
+  },
+  button: {
+    margin: "0 0.5rem"
   }
 }
 
@@ -42,6 +46,14 @@ function PaletteFormNav({
 }) {
   const theme = useTheme();
 
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
 
   const navigate = useNavigate();
   const handleGoBack = () => {
@@ -79,15 +91,17 @@ function PaletteFormNav({
 
         </Toolbar>
         <div className={classes.navBtns}>
-
-          <PaletteMetaForm handleSavePalette={handleSavePalette} newPaletteName={newPaletteName} handlePaletteNameChange={handlePaletteNameChange} />
-          <Button variant="contained" color="secondary" onClick={handleGoBack}>
+          <Button className={classes.button} variant="contained" color="secondary" onClick={handleGoBack}>
             go back
           </Button>
+          <Button className={classes.button} variant="contained" onClick={handleClickOpen}>
+            save palette
+          </Button>
         </div>
+        <PaletteMetaForm open={dialogOpen} handleClose={handleClose} handleSavePalette={handleSavePalette} newPaletteName={newPaletteName} handlePaletteNameChange={handlePaletteNameChange} />
       </AppBar>
     </div>
   );
 }
 
-export default withStyles(styles)(PaletteFormNav)
+export default withStyles(styles, { withTheme: true })(PaletteFormNav)

@@ -69,6 +69,7 @@ const AppBar = styled(MuiAppBar, {
   }),
   flexDirection: "row",
   justifyContent: "space-between",
+  alignItems: "center",
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
@@ -241,4 +242,4 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
   );
 }
 
-export default withStyles(styles)(NewPaletteForm);
+export default withStyles(styles, { withTheme: true })(NewPaletteForm);
