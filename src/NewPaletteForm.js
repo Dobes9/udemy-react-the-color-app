@@ -127,6 +127,9 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
   const handleColorNameChange = (e) => {
     setNewColorName(e.target.value);
   };
+  const handlePaletteNameChange = (e) => {
+    setNewPaletteName(e.target.value);
+  };
 
   const deleteColor = (colorName) => {
     setColors((colors) => colors.filter((color) => color.name !== colorName));
@@ -170,6 +173,8 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
         colors={colors}
         savePalette={savePalette}
         AppBar={AppBar}
+        newPaletteName={newPaletteName}
+        handlePaletteNameChange={handlePaletteNameChange}
       />
       <Drawer
         sx={{

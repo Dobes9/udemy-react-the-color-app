@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PaletteMetaForm from "./PaletteMetaForm";
 import { styled, useTheme } from "@mui/material/styles";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
@@ -35,19 +36,18 @@ function PaletteFormNav({
   colors,
   savePalette,
   AppBar,
-  classes
+  classes,
+  newPaletteName,
+  handlePaletteNameChange,
 }) {
   const theme = useTheme();
 
-  const [newPaletteName, setNewPaletteName] = useState("");
 
   const navigate = useNavigate();
   const handleGoBack = () => {
     navigate(-1);
   };
-  const handlePaletteNameChange = (e) => {
-    setNewPaletteName(e.target.value);
-  };
+
   const handleSavePalette = (e) => {
     e.preventDefault();
     const newPalette = {
@@ -79,22 +79,8 @@ function PaletteFormNav({
 
         </Toolbar>
         <div className={classes.navBtns}>
-          <ValidatorForm onSubmit={handleSavePalette}>
-            <TextValidator
-              label="Palette Name"
-              name="newPaletteName"
-              value={newPaletteName}
-              onChange={handlePaletteNameChange}
-              validators={["required", "isPaletteNameUnique"]}
-              errorMessages={[
-                "Enter palette name",
-                "Palette name already used",
-              ]}
-            />
-            <Button variant="contained" color="primary" type="submit">
-              save palette
-            </Button>
-          </ValidatorForm>
+
+          <PaletteMetaForm handleSavePalette={handleSavePalette} newPaletteName={newPaletteName} handlePaletteNameChange={handlePaletteNameChange} />
           <Button variant="contained" color="secondary" onClick={handleGoBack}>
             go back
           </Button>
