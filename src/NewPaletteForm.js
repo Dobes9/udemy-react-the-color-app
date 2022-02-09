@@ -94,6 +94,7 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
   const [newColor, setNewColor] = useState("#008080");
   const [newColorName, setNewColorName] = useState("");
   const [newPaletteName, setNewPaletteName] = useState("");
+  const [newEmoji, setNewEmoji] = useState(null)
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 

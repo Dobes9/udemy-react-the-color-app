@@ -7,6 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 
 
 export default function PaletteMetaForm({
@@ -41,6 +43,7 @@ export default function PaletteMetaForm({
                             margin="normal"
                         />
                     </DialogContent>
+                    <Picker />
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button variant="contained" color="primary" type="submit">
