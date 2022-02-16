@@ -20,7 +20,9 @@ export default function PaletteMetaForm({
 }) {
     return (
         <div>
-
+            <Dialog>
+                <Picker />
+            </Dialog>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Submit your new palette</DialogTitle>
                 <ValidatorForm onSubmit={handleSavePalette}>
@@ -43,7 +45,7 @@ export default function PaletteMetaForm({
                             margin="normal"
                         />
                     </DialogContent>
-                    <Picker />
+
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button variant="contained" color="primary" type="submit">
