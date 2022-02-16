@@ -3,22 +3,17 @@ import PaletteFormNav from "./PaletteFormNav";
 import ColorPickerForm from "./ColorPickerForm";
 import { styled, useTheme } from "@mui/material/styles";
 import DraggableColorList from "./DraggableColorList";
-import { arrayMove } from "react-sortable-hoc";
+// import { arrayMove } from "react-sortable-hoc";
+import { arrayMoveImmutable } from "array-move"
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { ChromePicker } from "react-color";
 import { Button } from "@mui/material";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { useNavigate } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 
 const styles = {
@@ -118,13 +113,7 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
       setNewColorName("");
     }
   };
-  //   const handleFormChange = (e) => {
-  //     if (e.target.name === "newColorName") {
-  //       setNewColorName(e.target.value);
-  //     } else {
-  //       setNewPaletteName(e.target.value);
-  //     }
-  //   };
+
 
   const handleColorNameChange = (e) => {
     setNewColorName(e.target.value);
@@ -142,7 +131,7 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
   };
 
   const handleGenRandColor = () => {
-    if (colors.length < 20) {
+    if (colors.length < maxColors) {
       const allColors = palettes.map((p) => p.colors).flat();
       let rand = Math.floor(Math.random() * allColors.length);
       const randomColor = allColors[rand];
@@ -151,7 +140,7 @@ function NewPaletteForm({ savePalette, palettes, maxColors = 20, classes }) {
   };
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    setColors(arrayMove(colors, oldIndex, newIndex));
+    setColors(arrayMoveImmutable(colors, oldIndex, newIndex));
   };
   ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
     return colors.every(
